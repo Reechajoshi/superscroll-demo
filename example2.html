@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>SUPERSCROLLORAMA</title>
+		<link rel="stylesheet" href="css/style.css" type="text/css">	
+	</head>
+	
+	<body>
+		<div id="content-wrapper">
+			<div id="examples-pin">
+				<div id="pin-frame-pin" class="pin-frame"><h2>Pin It</h2></div>
+				<div id="pin-frame-slide" class="pin-frame"><h2>Slide It</h2></div>
+				<div id="pin-frame-wipe" class="pin-frame"><h2>Wipe It</h2></div>
+				<div id="pin-frame-bounce" class="pin-frame"><h2>Bounce It</h2></div>
+				<div id="pin-frame-color" class="pin-frame"><h2>Color It</h2></div>
+				<div id="pin-frame-unpin" class="pin-frame"><h2>Unpin It</h2></div>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="js/greensock/TweenMax.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="js/jquery.lettering-0.6.1.min.js"></script>
+		<script src="js/jquery.superscrollorama.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('body').css('visibility','visible');
+				
+				var controller = $.superscrollorama();
+				
+				// set duration, in pixels scrolled, for pinned element
+				var pinDur = 4000;
+				
+				var pinAnimations = new TimelineLite();
+				pinAnimations
+					.append(TweenMax.from($('#pin-frame-pin h2'), .5, {css:{marginTop:0}, ease: Quad.easeInOut}))
+					.append([
+						TweenMax.to($('#pin-frame-slide'), 1, {css:{marginLeft:0}}),
+						TweenMax.to($('#pin-frame-pin'), 1, {css:{marginLeft:'100%'}})
+					], .5)
+					.append([
+						TweenMax.to($('#pin-frame-wipe'), .5, {css:{top:0}}),
+						TweenMax.from($('#pin-frame-wipe h2'), .5, {css:{marginTop:'-600px'}})
+					], .5)
+					.append(TweenMax.from($('#pin-frame-bounce'), 5, {css:{marginTop:'-100%'}, ease:Bounce.easeOut}), .5)
+					.append(TweenMax.from($('#pin-frame-color'), .25, {css:{opacity:0}}), .5)
+					.append([
+						TweenMax.to($('#pin-frame-color'), .25, {css:{backgroundColor:'blue'}}),
+						TweenMax.to($('#pin-frame-color h2'), .25, {css:{color:'orange'}})
+					])
+					.append([
+						TweenMax.to($('#pin-frame-color'), .25, {css:{backgroundColor:'green'}}),
+						TweenMax.to($('#pin-frame-color h2'), .25, {css:{color:'red'}})
+					])
+					.append([
+						TweenMax.to($('#pin-frame-color'), .25, {css:{backgroundColor:'yellow'}}),
+						TweenMax.to($('#pin-frame-color h2'), .25, {css:{color:'purple'}})
+					])
+					.append([
+						TweenMax.to($('#pin-frame-color'), .25, {css:{backgroundColor:'orange'}}),
+						TweenMax.to($('#pin-frame-color h2'), .25, {css:{color:'blue'}})
+					])
+					.append([
+						TweenMax.to($('#pin-frame-color'), .25, {css:{backgroundColor:'red'}}),
+						TweenMax.to($('#pin-frame-color h2'), .25, {css:{color:'green'}})
+					])
+					.append([
+						TweenMax.to($('#pin-frame-color'), .25, {css:{backgroundColor:'#222438'}}),
+						TweenMax.to($('#pin-frame-color h2'), .25, {css:{color:'#FFB000'}})
+					])
+					.append(TweenMax.to($('#pin-frame-unpin'), .5, {css:{top:'100px'}}));
+					
+					controller.pin($('#examples-pin'), pinDur, {
+                        anim:pinAnimations, 
+                        onPin: function() {
+                            $('#examples-pin').css('height','100%');
+                        }, 
+                        onUnpin: function() {
+                            $('#examples-pin').css('height','600px');
+                        }
+                    });
+			});
+		</script>
+	</body>
+</html>
